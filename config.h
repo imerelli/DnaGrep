@@ -1,0 +1,3 @@
+#undef HAVE_GETC_UNLOCKED
+#undef LAME_UNNAMED_NAMESPACE
+#define REAL double

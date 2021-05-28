@@ -1,0 +1,78 @@
+DnaGrep has been tested and developed using GCC 3.4.3, you are strongly
+suggested to use gcc (or more precisely g++ since it is written in c++),
+said that any standard-compliant C++ compiler running on a POSIX operating
+system should work.
+
+If you are using gcc on Linux or FreeBSD just type "make".
+
+Into the directory DnaGrep there is a file called config.h with some options
+inside that you might want/need to change:
+
+REAL:
+
+DnaGrep makes its computations using a generic type called REAL for floating
+point numbers. The default in config.h is "#define REAL double" which means
+to use a "double" precision (about 20 digits of precision).
+
+You might want to change this to "#define REAL float" to make DnaGrep
+faster, but then it will also be less accurate.
+
+HAVE_GETC_UNLOCKED:
+
+Some platforms (namely Solaris and MacOS X) issue a kernel lock when calling
+the library function getc(), this in order to avoid errors when multiple
+threads are reading the same file with getc(), this slows down DnaGrep
+dramatically (up to a factor 20). These platforms have a specific function
+called getc_unlocked() that does not care about the kernel lock which is
+perfectly fine with DnaGrep since it doe not use multiple threads,
+unfortunately not all systems have getc_unlocked().
+
+If your system has getc_unlocked might want to change the line 
+"#undef HAVE_GETC_UNLOCKED" to "#define HAVE_GETC_UNLOCKED" in config.h or
+DnaGrep might be very slow.
+
+If your system does not have getc_unlocked() you should let it remain
+"#undef HAVE_GETC_UNLOCKED" or DnaGrep will not compile and run.
+
+On many systems (Linux, FreeBSD, and others) this is simply not an issue and
+changing this setting does not make any difference.
+
+LAME_UNNAMED_NAMESPACE:
+
+Some g++ compilers handle unnamed namespaces in a strange manner. As is
+DnaGrep will compile correctly with any posix-compliant c++ compiler.
+
+If your compiler claims things like that "stdin" does not exist try changing
+the line "#undef LAME_UNNAMED_NAMESPACE" to "#define LAME_UNNAMED_NAMESPACE".
+
+ssize_t:
+
+Some systems do not know the existence of the (standard) type ssize_t, if
+you compiler shouts about not having a type named ssize_t add this line to
+config.h:
+#define ssize_t long
+
+Once adjusted config.h is time to take a look at the Makefile contained in
+the directory DnaGrep, the two options that you might want/need to change in
+there are CXX and CXXFLAGS.
+
+If you use a GCC compiler and it is in your standard path then you should be
+able to run it by typing simply g++, otherwise you have to change in the
+makefile the line "CXX= g++" with "CXX= <whatever>", where <whatever> is the
+name needed to invoke your compiler.
+
+The setting CXXFLAGS describes the options passed to your compiler, if you
+did not change compiler or only changed GXX to specify a path or a certain
+version of gcc to be usd you should not need to change this from the default
+"CXXFLAGS= -g -Wall -O9" (where -g means to leave the debug symbols in the
+program, -Wall means to issue warning for anything strange while compiling
+and -O9 means to optimize as much as possible).
+
+If you use  a compiler that is not GCC you will definitively need to check
+its documentation and decide yourself which are the options that it needs to
+do the job.
+
+Once the config.h and Makefile are set you should be able to compile DnaGrep
+by simply typing "make" while in the directory DnaGrep itself. If typing
+"./DnaGrep" in there you see the usage instructions of DnaGrep you are done.
+
