@@ -3,6 +3,7 @@
 #include "Profile.h"
 #include "FastaParserSequential.h"
 #include "FileReader.h"
+#include <limits.h>
 
 static size_t const kEntries = 256;
 

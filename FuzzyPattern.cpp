@@ -1,5 +1,7 @@
 #include "config.h"
 #include "FuzzyPattern.h"
+#include "string.h"
+#include <stdlib.h>
 
 static size_t const kEntries = 256;
 

@@ -2,6 +2,7 @@
 #include "config.h"
 #include "BayesModel.h"
 #include "SequenceSet.h"
+#include <stdlib.h>
 
 BayesModel::BayesModel (void)
   : mError (0),
